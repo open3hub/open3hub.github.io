@@ -517,6 +517,7 @@ body {
 .site-detail-tags {
     display: flex; flex-wrap: wrap; gap: 7px;
     margin-bottom: 24px;
+    text-align: center;
 }
 .detail-tag {
     font-size: 12px;
