@@ -603,6 +603,7 @@ body {
     font-family: inherit;
     box-shadow: var(--s1);
     letter-spacing: -0.008em;
+    line-height: 1;  
 }
 .back-btn:hover {
     background: var(--bg-alt);
