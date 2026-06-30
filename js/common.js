@@ -93,7 +93,7 @@ function renderFooter() {
         '<footer class="footer" role="contentinfo">' +
             '<p>' +
                 '<a href="index.html">' + SITE_CONFIG.name + '</a>' +
-                ' &nbsp;·&nbsp; <a href="index.html">首页</a>' +
+                ' &nbsp;&nbsp; <a href="index.html">首页</a>' +
             '</p>' +
             '<p style="margin-top:8px;">' +
                 'Copyright &copy; ' + SITE_CONFIG.copyright + ' ' + SITE_CONFIG.name +

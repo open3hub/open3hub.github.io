@@ -141,7 +141,8 @@ function renderSiteDetail(site) {
 
             '<div class="desc-section">' +
                 '<h2>网站介绍</h2>' +
-                '<p>' + (site.detail || site.desc) + '</p>' +
+	'<p>' + site.desc + '</p>' +
+                '<p>' + site.detail + '</p>' +
             '</div>' +
 
         '</div>' +
