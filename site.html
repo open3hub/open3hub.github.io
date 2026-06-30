@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站详情 - Open2Hub 极简导航</title>
+    <meta name="description" content="查看网站详细信息。">
+    <meta name="keywords" content="网站导航,网站详情,网站推荐">
+    <meta name="author" content="Open2Hub">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#f5f5f7">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="网站详情 - Open2Hub 极简导航">
+    <meta property="og:description" content="查看网站详细信息。">
+    <meta property="og:site_name" content="Open2Hub">
+    <meta property="og:locale" content="zh_CN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="网站详情 - Open2Hub 极简导航">
+    <meta name="twitter:description" content="查看网站详细信息。">
+
+    <link rel="canonical" href="site.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 公共背景（由 common.js 渲染） -->
+    <div id="bgContainer"></div>
+
+    <!-- 公共 Header（由 common.js 渲染） -->
+    <div id="headerContainer"></div>
+
+    <!-- 主内容 -->
+    <main class="main" role="main">
+
+        <!-- 返回按鈕 -->
+        <a class="back-btn" href="index.html" title="返回首页">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0">
+                <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            首页
+        </a>
+
+        <!-- 网站详情（由 JS 渲染） -->
+        <div id="siteDetailContainer" aria-live="polite"></div>
+
+        <!-- 同分类推荐 -->
+        <section class="related-section" id="relatedSection" style="display:none;">
+            <h2>推荐</h2>
+            <div class="sites-grid" id="relatedGrid"></div>
+        </section>
+
+    </main>
+
+    <!-- 公共 Footer（由 common.js 渲染） -->
+    <div id="footerContainer"></div>
+
+    <!-- JS -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/site.js"></script>
+</body>
+</html>
