@@ -117,7 +117,7 @@ function renderSiteDetail(site) {
             '</div>' +
             '<div class="site-detail-meta">' +
                 '<h1>' + site.name + '</h1>' +
-                '<a class="site-url" href="' + site.url + '" target="_blank" rel="noopener noreferrer">' + site.url + '</a>' +
+                '<p>' + site.desc + '</p>' +
             '</div>' +
         '</div>' +
 
@@ -134,14 +134,13 @@ function renderSiteDetail(site) {
                     '<div class="info-item-value">' + site.category + '</div>' +
                 '</div>' +
                 '<div class="info-item">' +
-                    '<div class="info-item-label">状态</div>' +
-                    '<div class="info-item-value" style="color:#34d399;">可访问</div>' +
+                    '<div class="info-item-label">官网</div>' +
+                    '<div class="info-item-value" style="color:#34d399;"><a class="site-url" href="' + site.url + '" target="_blank" rel="noopener noreferrer">' + site.url + '</a></div>' +
                 '</div>' +
             '</div>' +
 
             '<div class="desc-section">' +
                 '<h2>网站介绍</h2>' +
-	'<p>' + site.desc + '</p>' +
                 '<p>' + site.detail + '</p>' +
             '</div>' +
 
