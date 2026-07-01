@@ -548,7 +548,7 @@ body {
     border: 1px solid transparent;
 }
 .info-item-label {
-    font-size: 10.5px;
+    font-size: 13px;
     color: var(--t5);
     text-transform: uppercase;
     letter-spacing: 0.06em;
