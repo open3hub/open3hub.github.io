@@ -501,7 +501,7 @@ body {
 
 .site-detail-body .desc-section { margin-bottom: 24px; }
 .site-detail-body .desc-section h2 {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--t5);
     text-transform: uppercase;
