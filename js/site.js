@@ -35,7 +35,7 @@ function initSiteDetail() {
  * 更新 SEO meta
  */
 function updateSiteSEO(site) {
-    document.title = site.name + ' - ' + site.desc + ' | Open2Hub 极简导航';
+    document.title = site.name + ' - ' + site.desc + ' - Open2Hub - 极简导航';
 
     var descMeta = document.querySelector('meta[name="description"]');
     if (descMeta) {
