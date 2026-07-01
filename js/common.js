@@ -155,7 +155,7 @@ function renderSiteCard(site, options) {
     var dataAttrs = options.withDataAttrs
         ? ' data-name="' + site.name + '" data-desc="' + site.desc + '" data-tags="' + (site.tags || []).join(',') + '"'
         : '';
-    return '<a class="site-card" href="' + url + '"' + dataAttrs + '>' +
+    return '<a class="site-card" target="_blank" href="' + url + '"' + dataAttrs + '>' +
         '<div class="site-icon" style="background:' + site.color + '18;color:' + site.color + ';">' + site.icon + '</div>' +
         '<div class="site-card-info">' +
             '<div class="site-name">' + site.name + '</div>' +
