@@ -3,185 +3,878 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open2Hub – the most comprehensive navigation website</title>
+    <title>Open2Hub – 全网最全的导航网站</title>
     <link rel="icon" href="https://top.open2hub.com/open2hub.ico" sizes="32x32" type="image/x-icon">
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        /* 侧边栏 Active 状态右侧蓝线 */
-        .sidebar-active { background-color: #f4f6f8; color: #009ef7; border-right: 3px solid #009ef7; }
-        .text-gray-metronic { color: #a1a5b7; }
-        .bg-metronic-blue { background-color: #009ef7; }
-        .border-metronic-blue { border-color: #009ef7; }
-        .text-metronic-blue { color: #009ef7; }
-        .avatar-yellow { background-color: #ffe38c; }
-        .avatar-purple { background-color: #e2e2f6; color: #6d6b9b; }
-        .avatar-pink { background-color: #ffcce0; color: #bd347c; }
-        .avatar-green { background-color: #d4f5e1; color: #3fa769; }
-        .avatar-light-green { background-color: #e4f6ef; color: #4ca57d; }
-        .avatar-orange { background-color: #fff1db; color: #b47c43; }
-        .btn-connect { border: 1px solid #e4e6ef; color: #5e6278; }
-        .btn-connect:hover { background-color: #f5f8fa; }
-        .btn-connect-primary { background-color: #009ef7; color: white; border: 1px solid #009ef7; }
-        .btn-connect-primary:hover { background-color: #0091e6; }
-        .filter-active { background-color: #f1faff; color: #009ef7; border-color: #b5d5f5; }
-        .icon-box { border: 1px solid #e4e6ef; border-radius: 6px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; color: #a1a5b7;}
-        .icon-box:hover { background-color: #f5f8fa; }
+        /* ===== 全局 ===== */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+        }
+
+        /* ===== 侧边栏 ===== */
+        .sidebar {
+            width: 260px;
+            background-color: #fff;
+            border-right: 1px solid #e4e6ef;
+        }
+        .sidebar .nav-link {
+            color: #5e6278;
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: background-color 0.15s;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #f5f8fa;
+            color: #5e6278;
+        }
+        .sidebar .nav-link.active {
+            background-color: #f4f6f8;
+            color: #009ef7;
+            border-right: 3px solid #009ef7;
+            border-radius: 0.5rem 0 0 0.5rem;
+        }
+        .sidebar .nav-link svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        .sidebar .section-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: #a1a5b7;
+            padding: 0 0.75rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;          /* 新增：鼠标悬停显示手型 */
+            user-select: none;        /* 避免点击时选中文字 */
+        }
+        .sidebar .section-label .plus {
+            color: #c0c4d0;
+            transition: transform 0.2s;
+        }
+        /* 菜单默认隐藏 */
+        .sub-menu {
+            display: none;
+        }
+        /* 菜单展开时恢复 flex 布局 */
+        .sub-menu.open {
+            display: flex;
+        }
+
+        /* ===== 顶部导航 ===== */
+        .topbar {
+            height: 64px;
+            border-bottom: 1px solid #e4e6ef;
+        }
+        .topbar .nav-link-custom {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #1e1e2f;
+            padding: 0.25rem 0.5rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .topbar .nav-link-custom:hover {
+            color: #009ef7;
+        }
+
+        /* ===== 图标按钮 ===== */
+        .icon-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid #e4e6ef;
+            border-radius: 6px;
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #a1a5b7;
+            transition: background-color 0.15s;
+            padding: 0;
+        }
+        .icon-btn:hover {
+            background-color: #f5f8fa;
+        }
+        .icon-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===== 品牌 Logo ===== */
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            background-color: #000000;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* ===== 头像容器 ===== */
+        .avatar-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-yellow {
+            background-color: #ffe38c;
+            color: #8a6d2b;
+        }
+        .avatar-purple {
+            background-color: #e2e2f6;
+            color: #6d6b9b;
+        }
+        .avatar-pink {
+            background-color: #ffcce0;
+            color: #bd347c;
+        }
+        .avatar-green {
+            background-color: #d4f5e1;
+            color: #3fa769;
+        }
+        .avatar-light-green {
+            background-color: #e4f6ef;
+            color: #4ca57d;
+        }
+        .avatar-orange {
+            background-color: #fff1db;
+            color: #b47c43;
+        }
+        .avatar-amber {
+            background-color: #fcd34d;
+            color: #7c5c10;
+        }
+
+        /* ===== 用户卡片 ===== */
+        .user-card {
+            border: 1px solid #e4e6ef;
+            border-radius: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            background-color: #fff;
+            transition: box-shadow 0.2s;
+        }
+        .user-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        /* ===== 连接按钮 ===== */
+        .btn-connect {
+            border: 1px solid #e4e6ef;
+            color: #5e6278;
+            background-color: #fff;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.375rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.15s;
+        }
+        .btn-connect:hover {
+            background-color: #f5f8fa;
+            color: #009ef7;
+            border-color: #c0c8d4;
+        }
+
+        /* ===== 搜索框 ===== */
+        .search-input {
+            padding-left: 2.25rem;
+            padding-right: 0.75rem;
+            padding-top: 0.375rem;
+            padding-bottom: 0.375rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            background-color: #fff;
+            width: 220px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .search-input:focus {
+            border-color: #009ef7;
+            box-shadow: 0 0 0 3px rgba(0, 158, 247, 0.15);
+        }
+        .search-wrapper {
+            position: relative;
+        }
+        .search-wrapper .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a1a5b7;
+            pointer-events: none;
+        }
+        .search-wrapper .search-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ===== 头像堆叠 ===== */
+        .avatar-stack {
+            display: flex;
+        }
+        .avatar-stack .stack-item {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-right: -0.5rem;
+        }
+        .avatar-stack .stack-item:last-child {
+            margin-right: 0;
+        }
+
+        /* ===== 文本颜色 ===== */
+        .text-metronic-blue {
+            color: #009ef7;
+        }
+        .text-gray-metronic {
+            color: #a1a5b7;
+        }
+        .text-gray-800-custom {
+            color: #1e1e2f;
+        }
+        .text-gray-600-custom {
+            color: #5e6278;
+        }
+
+        /* ===== 标题 ===== */
+        .page-title {
+            font-size: 1.625rem;
+            font-weight: 700;
+            color: #1e1e2f;
+            letter-spacing: -0.02em;
+        }
+        .page-sub {
+            font-size: 0.875rem;
+            color: #a1a5b7;
+            margin-top: 0.25rem;
+        }
+
+        /* ===== 滚动条 ===== */
+        .overflow-y-auto::-webkit-scrollbar {
+            width: 4px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 4px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        /* ===== 响应式微调 ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 220px;
+            }
+            .search-input {
+                width: 160px;
+            }
+            .user-card {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .user-card .card-actions {
+                flex-wrap: wrap;
+                width: 100%;
+                justify-content: flex-start !important;
+            }
+        }
+        @media (max-width: 576px) {
+            .sidebar {
+                display: none;
+            }
+            .topbar .nav-links {
+                display: none;
+            }
+            .search-input {
+                width: 120px;
+            }
+        }
     </style>
 </head>
-<body class="bg-white flex h-screen text-sm text-gray-800 overflow-hidden">
+<body>
 
-    <!-- 侧边栏 -->
-    <aside class="w-64 border-r border-gray-200 flex flex-col bg-white h-full overflow-y-auto shrink-0">
-        <div class="p-6 flex items-center gap-2 mb-6">
-            <div class="w-8 h-8 bg-red-500 rounded-md flex items-center justify-center text-white font-bold text-lg">O2</div>
-            <span class="text-xl font-bold tracking-wide text-gray-800">OPEN2HUB</span>
-        </div>
-        
-        <nav class="flex-1 px-4 space-y-6">
-            <div>
-                <div class="px-3 mb-2 flex items-center justify-between text-gray-500 text-xs font-semibold tracking-wider">
-                    <span>USER</span>
-                    <span class="text-gray-400">+</span>
-                </div>
-                <div class="space-y-1">
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                        <span>Onboarding</span>
-                    </div>
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span>My Account</span>
-                    </div>
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
-                        <span>Network</span>
-                    </div>
-                </div>
+    <!-- ============================================================ -->
+    <!-- 整体布局：侧边栏 + 主内容 (flex)                              -->
+    <!-- ============================================================ -->
+    <div class="d-flex vh-100 overflow-hidden">
+
+        <!-- ========================================================== -->
+        <!-- 侧边栏                                                    -->
+        <!-- ========================================================== -->
+        <aside class="sidebar d-flex flex-column flex-shrink-0 overflow-y-auto">
+
+            <!-- Logo -->
+            <div class="d-flex align-items-center gap-1 px-4 pt-4 pb-3">
+                <div class="brand-logo">O</div>
+                <span class="fw-bold fs-5 text-gray-800-custom">PEN2HUB</span>
             </div>
 
-            <div>
-                <div class="px-3 mb-2 flex items-center justify-between text-gray-500 text-xs font-semibold tracking-wider">
-                    <span>USER</span>
-                    <span class="text-gray-400">+</span>
-                </div>
-                <div class="space-y-1">
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                        <span>Onboarding</span>
-                    </div>
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span>My Account</span>
-                    </div>
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
-                        <span>Network</span>
-                    </div>
-                </div>
-            </div>
+            <!-- 导航菜单（完整版 10 个分类，均默认折叠） -->
+            <nav class="flex-grow-1 px-3 py-2">
 
-            <div>
-                <div class="px-3 mb-2 flex items-center justify-between text-gray-500 text-xs font-semibold tracking-wider">
-                    <span>USER</span>
-                    <span class="text-gray-400">+</span>
-                </div>
-                <div class="space-y-1">
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                        <span>Onboarding</span>
+                <!-- 媒体 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>媒体</span>
+                        <span class="plus">+</span>
                     </div>
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span>My Account</span>
-                    </div>
-                    <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-600 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
-                        <span>Network</span>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            新闻资讯
+                        </a>
+                        <a href="#" class="nav-link active">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            百科知识
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
+                            财经数据
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
+                            垂直行媒
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
+                            数字出版
+                        </a>
                     </div>
                 </div>
-            </div>
-        </nav>
-    </aside>
 
-    <!-- 主内容区 -->
-    <main class="flex-1 flex flex-col h-full bg-white overflow-y-auto">
-        <!-- 顶部导航 -->
-        <header class="h-16 border-b border-gray-200 flex items-center justify-between px-8 shrink-0">
-            <!-- 面包屑 -->
-            <div class="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                <a href="#" class="text-gray-800 font-bold hover:text-[#009ef7] transition-colors">Home</a>
-                <a href="#" class="text-gray-800 font-bold hover:text-[#009ef7] transition-colors">Top</a>
-                <a href="#" class="text-gray-800 font-bold hover:text-[#009ef7] transition-colors">Blog</a>
-            </div>
-
-            <!-- 右侧工具 -->
-            <div class="flex items-center gap-3 text-gray-500">
-                <button class="icon-box"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
-                <button class="icon-box"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg></button>
-                <button class="icon-box"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg></button>
-            </div>
-        </header>
-
-        <!-- 页面内容 -->
-        <div class="p-8 max-w-7xl mx-auto w-full">
-            <!-- 页面标题 -->
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800 tracking-tight">News</h1>
-                    <p class="text-sm text-gray-500 mt-1">Production and distribution of real-time and in-depth non-fiction news reports, monetized primarily through brand advertising.</p>
-                </div>
-            </div>
-
-            <!-- 筛选栏 -->
-            <div class="flex items-center justify-between mb-6">
-                <span class="text-gray-600">Showing 24 Users</span>
-                
-                <div class="flex items-center gap-3">
-                    <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </span>
-                        <input type="text" placeholder="Type name, team name" class="pl-9 pr-3 py-1.5 border border-gray-300 rounded-lg w-56 text-sm bg-white focus:outline-none focus:border-blue-500">
+                <!-- 社交 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>社交</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            即时通讯
+                        </a>
+                        <a href="#" class="nav-link active">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            内容社区
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
+                            兴趣圈子
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
+                            婚恋交友
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 5a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2M4 5V3a2 2 0 002-2h12a2 2 0 012 2v2"></path></svg>
+                            职场社交
+                        </a>
                     </div>
                 </div>
-            </div>
 
-            <!-- 用户卡片列表 -->
-            <div class="space-y-4">
-                
-                <!-- Card 1: Jenny Klabber -->
-                <div class="flex items-center border border-gray-200 rounded-xl p-5 bg-white hover:shadow-sm transition-shadow gap-6">
-                    <div class="relative shrink-0">
-                        <div class="w-14 h-14 avatar-yellow flex items-center justify-center text-xl font-semibold text-yellow-800 overflow-hidden">
-                             <img src="https://top.open2hub.com/18.jpg" class="w-full h-full object-cover">
+                <!-- 娱乐 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>娱乐</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            综合视频
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            短视频
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            在线音乐
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            网络游戏
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            网络文学
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            动漫漫画
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            直播互动
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 电商 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>电商</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            综合商城
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            垂直电商
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            二手交易
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            品牌直销
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            跨境电商
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            B2B采购
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 服务 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>服务</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            本地生活
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            出行旅游
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            房产租赁
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            招聘求职
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            医疗健康
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            物流货运
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            专业服务
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 金融 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>金融</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            第三方支付
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            网上银行
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            证券投资
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            保险服务
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            财富管理
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            消费信贷
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 教育 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>教育</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            K12教育
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            高等教育
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            职业培训
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            语言学习
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            素质兴趣
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            学术科研
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            企业培训
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 搜索 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>搜索</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            通用搜索
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            垂直问答
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            学术搜索
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            视觉搜索
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            网址导航
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 工具 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>工具</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            企业服务
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            开发运维
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            云存储
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            AI助手
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            实用工具
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 政务 -->
+                <div class="mt-2">
+                    <div class="section-label">
+                        <span>政务</span>
+                        <span class="plus">+</span>
+                    </div>
+                    <div class="nav flex-column sub-menu">
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            政府门户
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            办事服务
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            公共安全
+                        </a>
+                        <a href="#" class="nav-link">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg>
+                            公益慈善
+                        </a>
+                    </div>
+                </div>
+
+            </nav>
+        </aside>
+
+        <!-- ========================================================== -->
+        <!-- 主内容区                                                  -->
+        <!-- ========================================================== -->
+        <main class="flex-grow-1 d-flex flex-column overflow-y-auto bg-white">
+
+            <!-- ======================================================== -->
+            <!-- 顶部导航栏                                              -->
+            <!-- ======================================================== -->
+            <header class="topbar d-flex align-items-center justify-content-between px-4 px-md-5 flex-shrink-0">
+
+                <!-- 左侧链接 -->
+                <div class="d-flex align-items-center gap-3 nav-links">
+                    <a href="#" class="nav-link-custom">首页</a>
+                    <a href="#" class="nav-link-custom">热榜</a>
+                    <a href="#" class="nav-link-custom">博客</a>
+                </div>
+
+                <!-- 右侧工具按钮 -->
+                <div class="d-flex align-items-center gap-2">
+                    <button class="icon-btn" aria-label="搜索">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                    <button class="icon-btn" aria-label="通知">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    </button>
+                    <button class="icon-btn" aria-label="设置">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ======================================================== -->
+            <!-- 页面内容                                                -->
+            <!-- ======================================================== -->
+            <div class="px-4 px-md-5 py-4 py-md-5 flex-grow-1">
+
+                <!-- 页面标题 -->
+                <div class="mb-4">
+                    <h1 class="page-title">新闻资讯</h1>
+                    <p class="page-sub">
+                        生产与分发实时/深度非虚构新闻报道，变现以品牌广告为主
+                    </p>
+                </div>
+
+                <!-- 筛选栏 -->
+                <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-2">
+                    <span class="text-gray-600-custom fs-6">显示 24 个</span>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="search-wrapper">
+                            <span class="search-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </span>
+                            <input type="text" class="search-input" placeholder="网站名称，网站描述">
                         </div>
                     </div>
-                    
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                            <h3 class="font-semibold text-[#009ef7] hover:underline cursor-pointer text-base">The Paper</h3>
+                </div>
+
+                <!-- ==================================================== -->
+                <!-- 用户卡片列表                                         -->
+                <!-- ==================================================== -->
+                <div class="d-flex flex-column gap-3">
+
+                    <!-- 卡片：The Paper -->
+                    <div class="user-card d-flex align-items-center gap-3 gap-md-4 flex-wrap flex-md-nowrap">
+                        <!-- 头像 -->
+                        <div class="avatar-box flex-shrink-0">
+                            <img src="https://top.open2hub.com/18.jpg" alt="澎湃新闻">
                         </div>
-                        <div class="flex items-center gap-4 text-xs text-gray-500">
-                            <div class="flex items-center gap-1.5">
-                                A digital-native news media outlet focusing on politics and ideas, providing in-depth reporting and real-time information.
+
+                        <!-- 信息 -->
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <h3 class="fs-6 fw-semibold text-metronic-blue mb-0" style="cursor:pointer;">
+                                    澎湃新闻
+                                </h3>
                             </div>
+                            <p class="text-gray-600-custom fs-7 mb-0">
+                                专注时政与思想的互联网原生新闻媒体，提供深度报道与实时资讯
+                            </p>
+                        </div>
+
+                        <!-- 右侧操作 -->
+                        <div class="d-flex align-items-center gap-3 flex-shrink-0 card-actions">
+                            <!-- 头像堆叠 -->
+                            <div class="avatar-stack">
+                                <span class="stack-item avatar-amber">A</span>
+                                <span class="stack-item avatar-purple">B</span>
+                                <span class="stack-item avatar-green">C</span>
+                            </div>
+                            <!-- 连接按钮 -->
+                            <button class="btn-connect">访问网站</button>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-4 shrink-0">
-                        <div class="flex -space-x-2">
-                            <div class="w-8 h-8 rounded-full bg-amber-200 border-2 border-white flex items-center justify-center text-xs font-bold text-amber-800">A</div>
-                            <div class="w-8 h-8 rounded-full bg-purple-200 border-2 border-white flex items-center justify-center text-xs font-bold text-purple-800">B</div>
-                            <div class="w-8 h-8 rounded-full bg-green-500 border-2 border-white flex items-center justify-center text-xs font-bold text-white">C</div>
+                    <!-- 卡片：The Paper（重复，仅用于示例） -->
+                    <div class="user-card d-flex align-items-center gap-3 gap-md-4 flex-wrap flex-md-nowrap">
+                        <div class="avatar-box avatar-yellow flex-shrink-0">
+                            <img src="https://top.open2hub.com/18.jpg" alt="澎湃新闻">
                         </div>
-                        <button class="px-4 py-1.5 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium text-xs bg-white hover:text-[#009ef7] transition-colors">Connected</button>
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <h3 class="fs-6 fw-semibold text-metronic-blue mb-0" style="cursor:pointer;">
+                                    澎湃新闻
+                                </h3>
+                            </div>
+                            <p class="text-gray-600-custom fs-7 mb-0">
+                                专注时政与思想的互联网原生新闻媒体，提供深度报道与实时资讯
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 flex-shrink-0 card-actions">
+                            <div class="avatar-stack">
+                                <span class="stack-item avatar-amber">A</span>
+                                <span class="stack-item avatar-purple">B</span>
+                                <span class="stack-item avatar-green">C</span>
+                            </div>
+                            <button class="btn-connect">访问网站</button>
+                        </div>
                     </div>
+
+                    <!-- 卡片：The Paper（重复） -->
+                    <div class="user-card d-flex align-items-center gap-3 gap-md-4 flex-wrap flex-md-nowrap">
+                        <div class="avatar-box avatar-yellow flex-shrink-0">
+                            <img src="https://top.open2hub.com/18.jpg" alt="澎湃新闻">
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <h3 class="fs-6 fw-semibold text-metronic-blue mb-0" style="cursor:pointer;">
+                                    澎湃新闻
+                                </h3>
+                            </div>
+                            <p class="text-gray-600-custom fs-7 mb-0">
+                                专注时政与思想的互联网原生新闻媒体，提供深度报道与实时资讯
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 flex-shrink-0 card-actions">
+                            <div class="avatar-stack">
+                                <span class="stack-item avatar-amber">A</span>
+                                <span class="stack-item avatar-purple">B</span>
+                                <span class="stack-item avatar-green">C</span>
+                            </div>
+                            <button class="btn-connect">访问网站</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 占位提示（可选） -->
+                <div class="mt-4 text-center text-muted small d-none d-md-block">
+                    <!-- 更多卡片可在此处继续添加 -->
                 </div>
 
             </div>
-        </div>
-    </main>
+            <!-- /页面内容 -->
+
+        </main>
+        <!-- /主内容区 -->
+
+    </div>
+    <!-- /整体布局 -->
+
+
+    <!-- Bootstrap 5 JS Bundle (含 Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- 自定义交互：菜单折叠/展开 -->
+    <script>
+        (function() {
+            // 获取所有分类标题（.section-label）
+            const labels = document.querySelectorAll('.section-label');
+            
+            labels.forEach(label => {
+                label.addEventListener('click', function(e) {
+                    // 找到当前标题紧邻的下一个兄弟元素，即 .sub-menu
+                    const subMenu = this.nextElementSibling;
+                    // 检查是否存在且包含 sub-menu 类
+                    if (subMenu && subMenu.classList.contains('sub-menu')) {
+                        // 切换 open 类来控制显示/隐藏
+                        subMenu.classList.toggle('open');
+                        
+                        // 可选：改变“+”号的方向（旋转45度）
+                        const plus = this.querySelector('.plus');
+                        if (plus) {
+                            if (subMenu.classList.contains('open')) {
+                                plus.style.transform = 'rotate(45deg)';
+                            } else {
+                                plus.style.transform = 'rotate(0deg)';
+                            }
+                        }
+                    }
+                });
+            });
+        })();
+    </script>
+
 </body>
 </html>
